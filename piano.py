@@ -1,3 +1,5 @@
+#! /bin/python
+
 import os
 import time
 os.environ["SDL_VIDEODRIVER"] = "dummy"
@@ -28,16 +30,16 @@ if __name__ == '__main__':
   }
 
   # Ten notes for ten inputs from the MakeyMakey.
-  c4 = pygame.mixer.Sound('C4-261.63.wav')
-  d4 = pygame.mixer.Sound('D4-293.66.wav')
-  e4 = pygame.mixer.Sound('E4-329.63.wav')
-  f4 = pygame.mixer.Sound('F4-349.23.wav')
-  g4 = pygame.mixer.Sound('G4-392.0.wav')
-  a4 = pygame.mixer.Sound('A4-440.0.wav')
-  b4 = pygame.mixer.Sound('B4-493.88.wav')
-  c5= pygame.mixer.Sound('C5-523.25.wav')
-  d5= pygame.mixer.Sound('D5-587.33.wav')
-  e5= pygame.mixer.Sound('E5-659.26.wav')
+  c4 = pygame.mixer.Sound('audio-files/C4-261.63.wav')
+  d4 = pygame.mixer.Sound('audio-files/D4-293.66.wav')
+  e4 = pygame.mixer.Sound('audio-files/E4-329.63.wav')
+  f4 = pygame.mixer.Sound('audio-files/F4-349.23.wav')
+  g4 = pygame.mixer.Sound('audio-files/G4-392.0.wav')
+  a4 = pygame.mixer.Sound('audio-files/A4-440.0.wav')
+  b4 = pygame.mixer.Sound('audio-files/B4-493.88.wav')
+  c5= pygame.mixer.Sound('audio-files/C5-523.25.wav')
+  d5= pygame.mixer.Sound('audio-files/D5-587.33.wav')
+  e5= pygame.mixer.Sound('audio-files/E5-659.26.wav')
 
   # Map between input codes and the notes to play.
   noteMap = {
