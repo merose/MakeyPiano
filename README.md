@@ -17,11 +17,13 @@ When I get a chance, I'll put photos on the Wiki. I've also added screw-terminal
 1. Enable SSH server in raspi-config.
 1. Set a static IP address to make SSH more convenient. (See http://elinux.org/RPi_Setting_up_a_static_IP_in_Debian.)
 1. Update packages and install a few more.
-        sudo apt-get update # To update index
-        sudo apt-get upgrade # To  update modules
-        sudo apt-get install python-pip python-dev # To get pip
-        sudo pip install evdev # To be able to read USB keyboard and mouse events
-        sudo apt-get install alsa-utils mpg123
+```
+sudo apt-get update # To update index
+sudo apt-get upgrade # To  update modules
+sudo apt-get install python-pip python-dev # To get pip
+sudo pip install evdev # To be able to read USB keyboard and mouse events
+sudo apt-get install alsa-utils mpg123
+```
 
 # Raspberry Pi Soft Shutdown Switch
 
@@ -33,18 +35,18 @@ The `shutdownSwitch.py` program is run at boot time by editing `/etc/rc.local`.
 
 The MakeyMakey emulates a USB keyboard and mouse, returning keyboard events for 11 of its inputs and mouse events for the other 7. The program `piano.py` reads 10 inputs, the four arrow keys on the MakeyMakey board and the keys on one of the two header inputs.
 
-| MakeyMakey input | Piano keyboard note
-----------------------------------------
-| Up    | C3
-| Right | D3
-| Down  | E3
-| Left  | F3
-| W     | G3
-| A     | A3
-| S     | B3
-| D     | C4
-| F     | D4
-| G     | E4
+MakeyMakey input | Piano keyboard note
+-----------------|--------------------
+Up    | C3
+Right | D3
+Down  | E3
+Left  | F3
+W     | G3
+A     | A3
+S     | B3
+D     | C4
+F     | D4
+G     | E4
 
 (Of course, you can change the code to generate any notes you want.)
 
