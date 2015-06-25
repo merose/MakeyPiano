@@ -60,9 +60,9 @@ There are several ways of generating sounds from Python. The most general is the
 
 PyGame wants to talk to an X11 server, which was problematic for the Alameda County Fair display. There is a way to avoid GUI output, though: specify a dummy video driver before intializing PyGame.
 
-```
+```python
 os.environ["SDL_VIDEODRIVER"] = "dummy"
-*initialize pygame or pygame.mixer*
+# Now initialize pygame or pygame.mixer.
 ```
 
 # License
