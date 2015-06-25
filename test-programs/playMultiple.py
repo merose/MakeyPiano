@@ -10,14 +10,14 @@ pygame.display.set_mode((1,1))
 #pygame.mixer.init()
 pygame.mixer.init(48000, -16, 1, 1024)
 
-c = pygame.mixer.Sound('C4-261.63.wav')
-d = pygame.mixer.Sound('D4-293.66.wav')
-e = pygame.mixer.Sound('E4-329.63.wav')
-f = pygame.mixer.Sound('F4-349.23.wav')
-g = pygame.mixer.Sound('G4-392.0.wav')
-a = pygame.mixer.Sound('A4-440.0.wav')
-b = pygame.mixer.Sound('B4-493.88.wav')
-c2= pygame.mixer.Sound('C5-523.25.wav')
+c = pygame.mixer.Sound('../audio-files/C4-261.63.wav')
+d = pygame.mixer.Sound('../audio-files/D4-293.66.wav')
+e = pygame.mixer.Sound('../audio-files/E4-329.63.wav')
+f = pygame.mixer.Sound('../audio-files/F4-349.23.wav')
+g = pygame.mixer.Sound('../audio-files/G4-392.0.wav')
+a = pygame.mixer.Sound('../audio-files/A4-440.0.wav')
+b = pygame.mixer.Sound('../audio-files/B4-493.88.wav')
+c2= pygame.mixer.Sound('../audio-files/C5-523.25.wav')
 
 scale = [c, d, e, f, g, a, b, c2]
 
