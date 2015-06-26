@@ -30,29 +30,47 @@ if __name__ == '__main__':
   }
 
   # Ten notes for ten inputs from the MakeyMakey.
-  c4 = pygame.mixer.Sound('audio-files/C4-261.63.wav')
-  d4 = pygame.mixer.Sound('audio-files/D4-293.66.wav')
-  e4 = pygame.mixer.Sound('audio-files/E4-329.63.wav')
-  f4 = pygame.mixer.Sound('audio-files/F4-349.23.wav')
-  g4 = pygame.mixer.Sound('audio-files/G4-392.0.wav')
-  a4 = pygame.mixer.Sound('audio-files/A4-440.0.wav')
-  b4 = pygame.mixer.Sound('audio-files/B4-493.88.wav')
-  c5= pygame.mixer.Sound('audio-files/C5-523.25.wav')
-  d5= pygame.mixer.Sound('audio-files/D5-587.33.wav')
-  e5= pygame.mixer.Sound('audio-files/E5-659.26.wav')
+  organNotes = [
+    pygame.mixer.Sound('audio-files/C4-261.63.wav'),
+    pygame.mixer.Sound('audio-files/D4-293.66.wav'),
+    pygame.mixer.Sound('audio-files/E4-329.63.wav'),
+    pygame.mixer.Sound('audio-files/F4-349.23.wav'),
+    pygame.mixer.Sound('audio-files/G4-392.0.wav'),
+    pygame.mixer.Sound('audio-files/A4-440.0.wav'),
+    pygame.mixer.Sound('audio-files/B4-493.88.wav'),
+    pygame.mixer.Sound('audio-files/C5-523.25.wav'),
+    pygame.mixer.Sound('audio-files/D5-587.33.wav'),
+    pygame.mixer.Sound('audio-files/E5-659.26.wav'),
+  ]
+
+  pianoNotes = [
+    pygame.mixer.Sound('audio-files/net_C3.wav'),
+    pygame.mixer.Sound('audio-files/net_D3.wav'),
+    pygame.mixer.Sound('audio-files/net_E3.wav'),
+    pygame.mixer.Sound('audio-files/net_F3.wav'),
+    pygame.mixer.Sound('audio-files/net_G3.wav'),
+    pygame.mixer.Sound('audio-files/net_A3.wav'),
+    pygame.mixer.Sound('audio-files/net_B3.wav'),
+    pygame.mixer.Sound('audio-files/net_C4.wav'),
+    pygame.mixer.Sound('audio-files/net_D4.wav'),
+    pygame.mixer.Sound('audio-files/net_E4.wav'),
+  ]
+
+  mode = "piano"
+  notes = pianoNotes
 
   # Map between input codes and the notes to play.
   noteMap = {
-    ecodes.KEY_UP: c4,
-    ecodes.KEY_RIGHT: d4,
-    ecodes.KEY_DOWN: e4,
-    ecodes.KEY_LEFT: f4,
-    ecodes.KEY_W: g4,
-    ecodes.KEY_A: a4,
-    ecodes.KEY_S: b4,
-    ecodes.KEY_D: c5,
-    ecodes.KEY_F: d5,
-    ecodes.KEY_G: e5,
+    ecodes.KEY_UP: notes[0],
+    ecodes.KEY_RIGHT: notes[1],
+    ecodes.KEY_DOWN: notes[2],
+    ecodes.KEY_LEFT: notes[3],
+    ecodes.KEY_W: notes[4],
+    ecodes.KEY_A: notes[5],
+    ecodes.KEY_S: notes[6],
+    ecodes.KEY_D: notes[7],
+    ecodes.KEY_F: notes[8],
+    ecodes.KEY_G: notes[9],
   }
 
   for event in dev.read_loop():
@@ -63,8 +81,9 @@ if __name__ == '__main__':
       note = noteMap[event.code]
 
       if not(note == None):
-        if touchState == 'press':
+        if touchState=='press':
+          note.stop()
           note.play()
-        elif touchState == 'release':
+        elif touchState=='release' and mode=='organ':
           note.stop()
     
