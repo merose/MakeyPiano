@@ -51,7 +51,28 @@ python /home/pi/MakePiano/shutdownSwitch.py &
 
 This is the end of the Pi setup.
 
+# Running the Piano System
+
+## Connecting Touch Points and the Speakers
+
+1. Connect aligator clips or leads from the touch points and ground points to the terminal strips for notes and ground, as desired.
+2. Connect the battery to the Raspberry Pi.
+3. Connect the speaker system using a mini-RCA patch cable.
+4. Turn on the battery power. The piano system will start automatically at boot time. This may take 10-20 seconds.
+
+## Using the Piano
+
+* The user must touch a ground point and then touch a note touch point. Multiple notes can be played at the same time. (Up to six, usually. However, the audio volume is not adjusted automatically, so there may be more distortion if multiple notes are played simultaneously.)
+* By default, the system plays sampled piano tones. To switch to organ tones (continuous sound) instead, play the notes F, B, and E, in order. (The 4th, 7th, and 10th note inputs, numbered from left to right.) To switch back to piano tones, play F, B, and D in order. (The 4th, 7th, and 9th note inputs.)
+* You may need to adjust the speaker volume, of course.
+
 # Piano Software Details
+
+## Shutdown Switch Monitor
+
+The shutdown switch program configures pin 40 (GPIO21) as an input, together with an internal pull-up resistor. When the momentary switch is pressed, pin 40 will go low. When the monitor program sees that, it spawns a shell command to halt the Linux system: `shutdown -h now`
+
+To safely stop the system, press the momentary switch and wait a few seconds until the green LED next to the red power LED flashes several times in a row, then turns off. The LEDs on the Ethernet interface will be off, too. At that point it is OK to turn off the power.
 
 ## Piano Software Inputs
 
