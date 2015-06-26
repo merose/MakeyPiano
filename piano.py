@@ -61,29 +61,47 @@ if __name__ == '__main__':
 
   # Map between input codes and the notes to play.
   noteMap = {
-    ecodes.KEY_UP: notes[0],
-    ecodes.KEY_RIGHT: notes[1],
-    ecodes.KEY_DOWN: notes[2],
-    ecodes.KEY_LEFT: notes[3],
-    ecodes.KEY_W: notes[4],
-    ecodes.KEY_A: notes[5],
-    ecodes.KEY_S: notes[6],
-    ecodes.KEY_D: notes[7],
-    ecodes.KEY_F: notes[8],
-    ecodes.KEY_G: notes[9],
+    ecodes.KEY_UP: 0,
+    ecodes.KEY_RIGHT: 1,
+    ecodes.KEY_DOWN: 2,
+    ecodes.KEY_LEFT: 3,
+    ecodes.KEY_W: 4,
+    ecodes.KEY_A: 5,
+    ecodes.KEY_S: 6,
+    ecodes.KEY_D: 7,
+    ecodes.KEY_F: 8,
+    ecodes.KEY_G: 9,
   }
+
+  noteHistory = (None, None, None)
 
   for event in dev.read_loop():
     if event.type == ecodes.EV_KEY:
       if 0<=event.value and event.value<=2:
         touchState = touchStateMap[event.value]
 
-      note = noteMap[event.code]
+      noteIndex = noteMap[event.code]
+      note = notes[noteIndex]
 
       if not(note == None):
-        if touchState=='press':
+        # Need to stop notes if we're in organ mode and the user releases
+        # the key. Otherwise we need to play the note if the user presses
+        # a key.
+        if touchState=='release' and mode=='organ':
+          note.stop()
+        elif touchState=='press':
           note.stop()
           note.play()
-        elif touchState=='release' and mode=='organ':
-          note.stop()
+
+	  # Keep track of note history, and change modes if the user
+	  # uses a tritone incantation. Make sure to turn off the organ
+          # note if starting piano mode.
+	  noteHistory = noteHistory[1:] + (noteIndex,)
+	  if noteHistory == (3, 6, 8):
+	    mode = "piano"
+	    notes = pianoNotes
+            note.stop()
+	  elif noteHistory == (3, 6, 9):
+	    mode = "organ"
+	    notes = organNotes
     
