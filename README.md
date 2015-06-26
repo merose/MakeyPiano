@@ -69,13 +69,17 @@ This is the end of the Pi setup.
 * By default, the system plays sampled piano tones. To switch to organ tones (continuous sound) instead, play the notes F3, B3, and E4, in order. (The 4th, 7th, and 10th note inputs, numbered from left to right.) To switch back to piano tones, play F3, B3, and D4 in order. (The 4th, 7th, and 9th note inputs.)
 * You may need to adjust the speaker volume, of course.
 
+## Shutting Down the System
+
+To safely stop the system, press the momentary switch and wait a few seconds until the green LED next to the red power LED flashes several times in a row, then turns off. The LEDs on the Ethernet interface will be off, too. At that point it is OK to turn off the power.
+
+**Warning:** Although unlikely, failure to shut down the system in this way before removing the power can corrupt the SD card, requiring reinstall of NOOBS.
+
 # Piano Software Details
 
 ## Shutdown Switch Monitor
 
 The shutdown switch program `MakeyPiano/shutdownSwitch.py` configures pin 40 (GPIO21) as an input, together with an internal pull-up resistor. When the momentary switch is pressed, pin 40 will go low. When the monitor program sees that, it spawns a shell command to halt the Linux system: `shutdown -h now`
-
-To safely stop the system, press the momentary switch and wait a few seconds until the green LED next to the red power LED flashes several times in a row, then turns off. The LEDs on the Ethernet interface will be off, too. At that point it is OK to turn off the power.
 
 ## Piano Software
 
