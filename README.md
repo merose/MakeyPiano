@@ -126,7 +126,7 @@ limitations under the License.
 
 ## Other Licenses
 
-The `shutdownSwitch.py` program was written by [an Instructables contributor](www.instructables.com/member/AndrewH7).
+The `shutdownSwitch.py` program was written by [an Instructables contributor](http://www.instructables.com/member/AndrewH7).
 See that file for his licensing information.
 
 Audio files were obtained from http://jetcityorange.com/musical-notes/ and http://www.audiocheck.net/blindtests_abspitch.php. Both sites indicate that the files may be freely used for noncommercial purposes. MP3 files were converted to WAV format using the online converter at http://audio.online-convert.com/convert-to-wav.
