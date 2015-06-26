@@ -15,6 +15,7 @@ When I get a chance, I'll put photos on the Wiki. I've also added screw-terminal
 
 1. Install NOOBS using local keyboard layout (EN-US, in my case).
 1. Enable SSH server in raspi-config.
+1. Create unique SSH keys: `sudo rm /etc/ssh/ssh_host_* && sudo dpkg-reconfigure openssh-server`
 1. Set a static IP address to make SSH more convenient. (See http://elinux.org/RPi_Setting_up_a_static_IP_in_Debian.)
 1. Update packages and install a few more.
 ```
@@ -22,7 +23,22 @@ sudo apt-get update # To update index
 sudo apt-get upgrade # To  update modules
 sudo apt-get install python-pip python-dev # To get pip
 sudo pip install evdev # To be able to read USB keyboard and mouse events
-sudo apt-get install alsa-utils mpg123
+```
+# Turn Off Audio Dithering
+
+The Pi will generate too much noise, by default, if the audio output amplitude is zero. Turn off audio dithering by editing `/boot/config.txt`:
+
+```
+disable_audio_dither=1
+```
+
+# Getting the Piano Software
+
+Git is installed by default in NOOBS. Clone the MakeyPiano workspace into the `pi` user home directory:
+
+```
+cd ~
+git clone https://github.com/merose/MakeyPiano.git
 ```
 
 # Raspberry Pi Soft Shutdown Switch
@@ -31,7 +47,25 @@ A momentary, pushdown switch is connected between the bottom two pins on the GPI
 
 The `shutdownSwitch.py` program is run at boot time by editing `/etc/rc.local`.
 
+```
+python /home/pi/MakePiano/shutdownSwitch.py &
+```
+
 # The Piano Software
+
+## Running the Piano Software at Boot
+
+Edit `/etc/rc.local` to run the piano startup script at boot:
+
+```
+/home/pi/MakePiano/piano &
+```
+
+This is the end of the Pi setup.
+
+# Piano Software Details
+
+## Piano Software Inputs
 
 The MakeyMakey emulates a USB keyboard and mouse, returning keyboard events for 11 of its inputs and mouse events for the other 7. The program `piano.py` reads 10 inputs, the four arrow keys on the MakeyMakey board and the keys on one of the two header inputs.
 
