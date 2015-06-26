@@ -101,7 +101,7 @@ if __name__ == '__main__':
 	    mode = "piano"
 	    notes = pianoNotes
             note.stop()
+            notes[8].play()
 	  elif noteHistory == (3, 6, 9):
 	    mode = "organ"
 	    notes = organNotes
-    
