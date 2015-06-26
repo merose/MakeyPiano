@@ -80,18 +80,18 @@ The MakeyMakey emulates a USB keyboard and mouse, returning keyboard events for 
 
 MakeyMakey input | Piano keyboard note
 -----------------|--------------------
-Up    | C4
-Right | D4
-Down  | E4
-Left  | F4
-W     | G4
-A     | A4
-S     | B4
-D     | C5
-F     | D5
-G     | E5
+Up    | C3
+Right | D3
+Down  | E3
+Left  | F3
+W     | G3
+A     | A3
+S     | B3
+D     | C4
+F     | D4
+G     | E4
 
-(Of course, you can change the code to generate any notes you want.)
+The organ notes are one octave higher. (Of course, you can change the code to generate any notes you want.)
 
 The code uses the `evdev` library to read the keyboard events.
 
