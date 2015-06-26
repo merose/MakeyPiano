@@ -1,6 +1,6 @@
 # MakeyPiano
-Code and setup info for a Raspberry Pi and MakeyMakey piano demo, originally for the 2015
-Alameda County Fair in Pleasanton, CA. Written for the [RobotGarden](http://www.robotgarden.org/) display.
+Code and setup info for a Raspberry Pi and MakeyMakey piano demo, originally for the [RobotGarden](http://www.robotgarden.org/) display at the 2015
+Alameda County Fair in Pleasanton, CA.
 
 # The Hardware
 
@@ -8,8 +8,11 @@ Alameda County Fair in Pleasanton, CA. Written for the [RobotGarden](http://www.
 * MakeyMakey, powered by USB from Raspberry Pi
 * Momentary, push-button switch across pins 39 and 40 (Ground and GPIO21, resp.), to provide shutdown request for safe power-off
 * USB battery to power Raspberry Pi
+* Cinch terminal blocks to make the external touch-point connections easier and sturdier. (10-terminal block for the touch-points, 6-terminal block for the ground points.)
 
-When I get a chance, I'll put photos on the Wiki. I've also added screw-terminal strips to make the MakeyMakey wiring more permanent while still allowing leads to be connected when setting up the display.
+When I get a chance, I'll put photos on the Wiki.
+
+The terminal blocks are wired to the MakeyMakey to a ground hole, the holes for the four arrow keys, and the six-pin WASDFG header. The wires to the holes designed for the aligator clips are instead attached with #4x1/4" machine screws, to make the attachment sturdier. The 6-terminal block terminals are all tied to ground, while the 10-terminal block terminals are connected to UP, RIGHT, DOWN, LEFT, W, A, S, D, F, and G, in order, left-to-right. (The order of the arrow keys follows the conventions in the CSS spec, to make it easier to remember: north, east, south, west.)
 
 # Raspberry Pi Setup
 
@@ -24,7 +27,7 @@ sudo apt-get upgrade # To  update modules
 sudo apt-get install python-pip python-dev # To get pip
 sudo pip install evdev # To be able to read USB keyboard and mouse events
 ```
-* The Pi will generate too much noise, by default, if the audio output amplitude is zero. Turn off audio dithering by editing `/boot/config.txt`:
+* The Pi will generate too much noise, by default, if the audio output amplitude is zero. Turn off audio dithering by adding a setting at the end of `/boot/config.txt`: (This does not take effect until reboot.)
 
 ```
 disable_audio_dither=1
@@ -37,13 +40,13 @@ cd ~
 git clone https://github.com/merose/MakeyPiano.git
 ```
 
-* Set up the shutdown switch monitor program. A momentary, pushdown switch is connected between the bottom two pins on the GPIO header, pins 39 and 40. (Other pin pairs are OK, but those are easy to remember.) Pin 40 (GPIO21) will be read using an internal pull-up resistor by the program `shutdownSwitch.py`. When pin 40 goes low, the program will initiate a shutdown via `shutdown -h now`. The `shutdownSwitch.py` program is run at boot time by editing `/etc/rc.local`.
+* Set up the shutdown switch monitor program. A momentary, pushdown switch is connected between the bottom two pins on the GPIO header, pins 39 and 40. (Other pin pairs are OK, but those are easy to remember.) Pin 40 (GPIO21) will be read using an internal pull-up resistor by the program `shutdownSwitch.py`. When pin 40 goes low, the program will initiate a shutdown via `shutdown -h now`. The `shutdownSwitch.py` program is run at boot time by editing `/etc/rc.local`. Add this line before `return 0`:
 
 ```
 python /home/pi/MakePiano/shutdownSwitch.py &
 ```
 
-* Install the piano software script to run at boot time. Edit `/etc/rc.local` to run the piano startup script at boot:
+* Install the piano software script to run at boot time. Edit `/etc/rc.local` to run the piano startup script at boot. Add this line before `return 0`:
 
 ```
 /home/pi/MakePiano/piano &
@@ -129,4 +132,4 @@ limitations under the License.
 The `shutdownSwitch.py` program was written by [an Instructables contributor](http://www.instructables.com/member/AndrewH7).
 See that file for his licensing information.
 
-Audio files were obtained from http://jetcityorange.com/musical-notes/ and http://www.audiocheck.net/blindtests_abspitch.php. Both sites indicate that the files may be freely used for noncommercial purposes. MP3 files were converted to WAV format using the online converter at http://audio.online-convert.com/convert-to-wav.
+Audio files were obtained from http://jetcityorange.com/musical-notes/ and http://www.audiocheck.net/blindtests_abspitch.php. Both sites indicate that the files may be freely used for noncommercial purposes. MP3 files were converted to WAV format using the online converter at http://audio.online-convert.com/convert-to-wav. The files from audiocheck.net were also converted to 16-bit samples using Audacity, as the original 24-bit samples were not playable from PyGame.
