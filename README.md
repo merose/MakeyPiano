@@ -16,15 +16,15 @@ The terminal blocks are wired to the MakeyMakey to a ground hole, the holes for 
 
 # Raspberry Pi Setup
 
-* Install NOOBS using local keyboard layout (EN-US, in my case).
+* Install NOOBS using local keyboard layout. (en-US, in my case. Note that if you don't set the layout at the bottom of the NOOBS setup screen, you get en-UK, which shows a UK pound symbol instead of a hash.)
 * Enable SSH server in raspi-config.
 * Create unique SSH keys: `sudo rm /etc/ssh/ssh_host_* && sudo dpkg-reconfigure openssh-server`
 * Set a static IP address to make SSH more convenient. (See http://elinux.org/RPi_Setting_up_a_static_IP_in_Debian.)
 * Update packages and install a few more.
 ```
-sudo apt-get update # To update index
-sudo apt-get upgrade # To  update modules
-sudo apt-get install python-pip python-dev # To get pip
+sudo apt-get update # To update the package index
+sudo apt-get upgrade # To  update existing packages as needed
+sudo apt-get install python-pip python-dev # To get pip and dev
 sudo pip install evdev # To be able to read USB keyboard and mouse events
 ```
 * The Pi will generate too much noise, by default, if the audio output amplitude is zero. Turn off audio dithering by adding a setting at the end of `/boot/config.txt`: (This does not take effect until reboot.)
@@ -33,7 +33,7 @@ sudo pip install evdev # To be able to read USB keyboard and mouse events
 disable_audio_dither=1
 ```
 
-* Install the piano software. Git is installed by default in NOOBS. Clone the MakeyPiano workspace into the `pi` user home directory:
+* Install the piano software. Git is already installed by default in NOOBS. Clone the MakeyPiano workspace into the `pi` user home directory:
 
 ```
 cd ~
@@ -43,13 +43,13 @@ git clone https://github.com/merose/MakeyPiano.git
 * Set up the shutdown switch monitor program. A momentary, pushdown switch is connected between the bottom two pins on the GPIO header, pins 39 and 40. (Other pin pairs are OK, but those are easy to remember.) Pin 40 (GPIO21) will be read using an internal pull-up resistor by the program `shutdownSwitch.py`. When pin 40 goes low, the program will initiate a shutdown via `shutdown -h now`. The `shutdownSwitch.py` program is run at boot time by editing `/etc/rc.local`. Add this line before `return 0`:
 
 ```
-python /home/pi/MakePiano/shutdownSwitch.py &
+python /home/pi/MakeyPiano/shutdownSwitch.py &
 ```
 
-* Install the piano software script to run at boot time. Edit `/etc/rc.local` to run the piano startup script at boot. Add this line before `return 0`:
+* Edit `/etc/rc.local` to run the piano startup script at boot time. Add this line before `return 0`:
 
 ```
-/home/pi/MakePiano/piano &
+/home/pi/MakeyPiano/piano &
 ```
 
 This is the end of the Pi setup.
@@ -58,7 +58,7 @@ This is the end of the Pi setup.
 
 ## Connecting Touch Points and the Speakers
 
-1. Connect aligator clips or leads from the touch points and ground points to the terminal strips for notes and ground, as desired.
+1. Connect aligator clips or leads from the touch points and ground points to the terminal blocks for notes and ground, as desired.
 2. Connect the battery to the Raspberry Pi.
 3. Connect the speaker system using a mini-RCA patch cable.
 4. Turn on the battery power. The piano system will start automatically at boot time. This may take 10-20 seconds.
@@ -66,16 +66,25 @@ This is the end of the Pi setup.
 ## Using the Piano
 
 * The user must touch a ground point and then touch a note touch point. Multiple notes can be played at the same time. (Up to six, usually. However, the audio volume is not adjusted automatically, so there may be more distortion if multiple notes are played simultaneously.)
-* By default, the system plays sampled piano tones. To switch to organ tones (continuous sound) instead, play the notes F, B, and E, in order. (The 4th, 7th, and 10th note inputs, numbered from left to right.) To switch back to piano tones, play F, B, and D in order. (The 4th, 7th, and 9th note inputs.)
+* By default, the system plays sampled piano tones. To switch to organ tones (continuous sound) instead, play the notes F3, B3, and E4, in order. (The 4th, 7th, and 10th note inputs, numbered from left to right.) To switch back to piano tones, play F3, B3, and D4 in order. (The 4th, 7th, and 9th note inputs.)
 * You may need to adjust the speaker volume, of course.
 
 # Piano Software Details
 
 ## Shutdown Switch Monitor
 
-The shutdown switch program configures pin 40 (GPIO21) as an input, together with an internal pull-up resistor. When the momentary switch is pressed, pin 40 will go low. When the monitor program sees that, it spawns a shell command to halt the Linux system: `shutdown -h now`
+The shutdown switch program `MakeyPiano/shutdownSwitch.py` configures pin 40 (GPIO21) as an input, together with an internal pull-up resistor. When the momentary switch is pressed, pin 40 will go low. When the monitor program sees that, it spawns a shell command to halt the Linux system: `shutdown -h now`
 
 To safely stop the system, press the momentary switch and wait a few seconds until the green LED next to the red power LED flashes several times in a row, then turns off. The LEDs on the Ethernet interface will be off, too. At that point it is OK to turn off the power.
+
+## Piano Software
+
+The piano program is `MakeyPiano/piano.py`. It uses the `evdev` library to read keyboard events from the MakeyMakey and PyGame to play audio files for note presses. There is also a shell script that is used to start the Python program, `MakeyPiano/piano`, which first moves to the `MakeyPiano` directory so that the audio files can be loaded using relative paths.
+
+There are two subdirectories:
+
+* `audio-files` contains the audio files for the 10 piano notes. There are two sets of files, one set for piano sounds and one for continuous, organ-like sounds.
+* `test-programs` contains Python programs that were used to try out features of Python or the Raspberry Pi while developing the piano software. They may be of historical interest. Two programs uses PyFirmata to talk to an Arduino connected to the Raspberry Pi. (Requires installation of PyFirmata and install of Standard Firmata to the Arduino.)
 
 ## Piano Software Inputs
 
