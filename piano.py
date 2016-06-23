@@ -2,6 +2,7 @@
 
 import os
 import time
+import sys
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 
 from evdev import InputDevice, categorize, ecodes
@@ -18,7 +19,13 @@ if __name__ == '__main__':
   pygame.init();
   pygame.display.set_mode((1,1))
 
-  dev = InputDevice('/dev/input/by-id/usb-JoyLabz_Makey_Makey_v1.20aa_50000000-event-kbd')
+  if os.path.islink('/dev/input/by-id/usb-JoyLabz_Makey_Makey_v1.20aa_50000000-event-kbd'):
+    dev = InputDevice('/dev/input/by-id/usb-JoyLabz_Makey_Makey_v1.20aa_50000000-event-kbd')
+  elif os.path.islink('/dev/input/by-id/usb-Arduino_LLC_Arduino_Leonardo-if02-event-mouse'):
+    dev = InputDevice('/dev/input/by-id/usb-Arduino_LLC_Arduino_Leonardo-if02-event-mouse')
+  else:
+    print "No MakeyMakey/Arduino Leonardo found:-("
+    sys.exit(1)
 
   # Don't need any params since we called pre_ini().
   pygame.mixer.init()
@@ -80,8 +87,11 @@ if __name__ == '__main__':
       if 0<=event.value and event.value<=2:
         touchState = touchStateMap[event.value]
 
-      noteIndex = noteMap[event.code]
-      note = notes[noteIndex]
+      try:
+        noteIndex = noteMap[event.code]
+        note = notes[noteIndex]
+      except LookupError:
+        note = None
 
       if not(note == None):
         # Need to stop notes if we're in organ mode and the user releases

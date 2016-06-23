@@ -1,9 +1,16 @@
 from evdev import InputDevice, categorize, ecodes
+import os
+import sys
 
 if __name__ == '__main__':
 
-  #dev = InputDevice('/dev/input/by-id/usb-JoyLabz_Makey_Makey_v1.20aa_50000000-event-kbd')
-  dev = InputDevice('/dev/input/by-id/usb-JoyLabz_Makey_Makey_v1.20aa_50000000-event-kbd')
+  if os.path.islink('/dev/input/by-id/usb-JoyLabz_Makey_Makey_v1.20aa_50000000-event-kbd'):
+    dev = InputDevice('/dev/input/by-id/usb-JoyLabz_Makey_Makey_v1.20aa_50000000-event-kbd')
+  elif os.path.islink('/dev/input/by-id/usb-Arduino_LLC_Arduino_Leonardo-if02-event-mouse'):
+    dev = InputDevice('/dev/input/by-id/usb-Arduino_LLC_Arduino_Leonardo-if02-event-mouse')
+  else:
+    print "No MakeyMakey/Arduino Leonardo found:-("
+    sys.exit(1)
 
   for event in dev.read_loop():
     if event.type == ecodes.EV_KEY:
